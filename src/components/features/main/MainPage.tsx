@@ -110,7 +110,6 @@ export default function MainPage() {
   return (
     <Suspense fallback={
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-        {/* Скелетон для каждого элемента */}
         {[...Array(itemsPerPage)].map((_, index) => (
           <div key={index} className="w-[250px] h-[350px] rounded-3xl bg-primary p-4 shadow-lg text-white relative flex flex-col justify-between">
             <Skeleton className="w-full h-40 rounded-lg" />
