@@ -8,16 +8,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 			lastModified: new Date().toISOString(), 
 			priority: 1.0
 		},
-		{
-			url: APP_URL + `/decors`,
-			lastModified: new Date().toISOString(),
-			priority: 0.8
-		},
-		{
-			url: APP_URL + `/support`,
-			lastModified: new Date().toISOString(),
-			priority: 0.7
-		}
 	]
 
 	return routes
