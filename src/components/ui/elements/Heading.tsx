@@ -1,7 +1,6 @@
-import { type VariantProps, cva } from 'class-variance-authority'
 import { cn } from '@/utils/tw-merge'
+import { type VariantProps, cva } from 'class-variance-authority'
 
-import { Avatar, AvatarFallback, AvatarImage } from '../common/Avatar'
 
 const headingSizes = cva('', {
 	variants: {

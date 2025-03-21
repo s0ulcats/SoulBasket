@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import CategoryFilter from "@/components/ui/elements/CategoryFilter";
 import { Skeleton } from "@/components/ui/common/Skeleton";
 import { API_ROUTE } from "@/libs/constants/url.constants";
+import CountryFilter from "@/components/ui/elements/CountryFilter";
 
 interface Meal {
   idMeal: number
@@ -68,11 +69,12 @@ export default function MainPage() {
   const [meals, setMeals] = useState<Meal[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [selectedCountry, setSelectedCountry] = useState<string>("All"); 
   const itemsPerPage = 10;
   const alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
-  
+
   const searchParams = useSearchParams();
-  const searchTerm = searchParams.get("searchTerm") || ""; 
+  const searchTerm = searchParams.get("searchTerm") || "";
 
   useEffect(() => {
     const fetchAllMeals = async () => {
@@ -98,7 +100,8 @@ export default function MainPage() {
   const filteredMeals = meals.filter(meal => {
     const matchesSearchTerm = meal.strMeal.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === "All" || meal.strCategory === selectedCategory;
-    return matchesSearchTerm && matchesCategory;
+    const matchesCountry = selectedCountry === "All" || meal.strArea === selectedCountry; 
+    return matchesSearchTerm && matchesCategory && matchesCountry;
   });
 
   const indexOfLastMeal = currentPage * itemsPerPage;
@@ -107,12 +110,13 @@ export default function MainPage() {
   const totalPages = Math.ceil(filteredMeals.length / itemsPerPage);
 
   const categories = ["All", ...new Set(meals.map(meal => meal.strCategory))];
+  const countries = ["All", ...new Set(meals.map(meal => meal.strArea))]; 
 
   return (
     <Suspense fallback={
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-        {[...Array(itemsPerPage)].map((_, index) => (
-          <div key={index} className="w-[250px] h-[350px] rounded-3xl bg-primary p-4 shadow-lg text-white relative flex flex-col justify-between">
+        {[...Array(itemsPerPage)].map((_, idx) => (
+          <div key={idx} className="w-[250px] h-[350px] rounded-3xl bg-primary p-4 shadow-lg text-white relative flex flex-col justify-between">
             <Skeleton className="w-full h-40 rounded-lg" />
             <div className="text-center mt-4">
               <Skeleton className="w-3/4 h-6 mx-auto" />
@@ -123,25 +127,33 @@ export default function MainPage() {
         ))}
       </div>
     }>
-    <div className="p-6">
-      <CategoryFilter
-        categories={categories}
-        selectedCategory={selectedCategory}
-        setSelectedCategory={setSelectedCategory}
-      />
+      <div className="p-6">
+        <div className="flex gap-4 items-center">
+          <CategoryFilter
+            categories={categories}
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+          />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {currentMeals.map((meal) => (
-          <MealCard key={meal.idMeal} meal={meal} />
-        ))}
+          <CountryFilter
+            selectedCountry={selectedCountry}
+            setSelectedCountry={setSelectedCountry}
+            countries={countries}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {currentMeals.map((meal) => (
+            <MealCard key={meal.idMeal} meal={meal} />
+          ))}
+        </div>
+
+        <PaginationComponent
+          currentPage={currentPage}
+          totalPages={totalPages}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
-
-      <PaginationComponent
-        currentPage={currentPage}
-        totalPages={totalPages}
-        setCurrentPage={setCurrentPage}
-      />
-    </div>
     </Suspense>
   );
 }
