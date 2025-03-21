@@ -6,6 +6,7 @@ import PaginationComponent from "@/components/ui/elements/PaginationComponent";
 import { useSearchParams } from "next/navigation";
 import CategoryFilter from "@/components/ui/elements/CategoryFilter";
 import { Skeleton } from "@/components/ui/common/Skeleton";
+import { API_ROUTE } from "@/libs/constants/url.constants";
 
 interface Meal {
   idMeal: number
@@ -77,7 +78,7 @@ export default function MainPage() {
     const fetchAllMeals = async () => {
       try {
         const requests = alphabet.map((letter) =>
-          fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${letter}`)
+          fetch(`${API_ROUTE}${letter}`)
             .then((res) => res.json())
         );
         const responses = await Promise.all(requests);
@@ -129,7 +130,7 @@ export default function MainPage() {
         setSelectedCategory={setSelectedCategory}
       />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {currentMeals.map((meal) => (
           <MealCard key={meal.idMeal} meal={meal} />
         ))}
