@@ -90,7 +90,7 @@ export default function MainPage() {
 
         setMeals(allMeals);
       } catch (error) {
-        console.error("Error fetching meals:", error);
+        console.error(error);
       }
     };
 

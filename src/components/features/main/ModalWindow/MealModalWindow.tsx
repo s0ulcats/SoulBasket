@@ -83,7 +83,7 @@ const MealModalWindow: React.FC<MealModalWindowProps> = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <Card className="w-[1080px] h-[720px] p-6 text-white rounded-xl relative">
         <button
-          className="absolute top-4 right-4 text-white text-xl"
+          className="absolute top-12 right-12 text-white text-xl"
           onClick={closeModal}
         >
           ×

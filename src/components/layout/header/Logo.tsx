@@ -11,7 +11,7 @@ export default function Logo() {
                 <h2 className="text-lg font-semibold tracking-wider text-accent-foreground">
                     SoulBasket
                 </h2>
-                <p className="text-sm text-muted-foreground">{('You can find all recieps')}</p>
+                <p className="text-sm text-muted-foreground">{('You can find all recipes')}</p>
             </div>
         </Link>
     )
